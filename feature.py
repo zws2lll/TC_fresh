@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LogisticRegression
+from sklearn import preprocessing
 def fuc1():
     print '\n'
 
@@ -189,10 +190,12 @@ def getFeature():
             # print '####user:{}'.format(user_idTmp)
             if trainSetLable[:].sum(axis=0) > 0 and len(testSet) != 1:
                 logit = LogisticRegression(C=1.0)
-                logit.fit(trainSet, trainSetLable.ravel())
+                logit.fit(preprocessing.scale(trainSet.astype(float)),
+                          trainSetLable.ravel())
                 for i in range(len(testSet)):
                     # x = logit.predict(trainSet[0])
-                    x = logit.predict(testSet[i][2:])
+                    x = logit.predict(preprocessing.scale(testSet[i][
+                                                          2:].astype(float)))
                     if x == 1:
                         print '{},{}'.format(int(testSet[i][0:1]),\
                                              int(testSet[i][1:2]))
